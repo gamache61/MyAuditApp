@@ -1,0 +1,17 @@
+{
+  "short_name": "AppAudit",
+  "name": "AppAudit Guardian Monitor",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/6840/6840478.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#121212",
+  "background_color": "#121212",
+  "orientation": "portrait"
+}
