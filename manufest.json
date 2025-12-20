@@ -1,0 +1,8 @@
+{
+  "short_name": "AppAudit",
+  "name": "AppAudit Guardian",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#ff9f43",
+  "background_color": "#0f0f0f"
+}
