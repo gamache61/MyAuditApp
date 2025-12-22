@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://generativelanguage.googleapis.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://generativelanguage.googleapis.com;">
+  <title>AppAudit: Guardian 4.9.2 (2.5 Flash)</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    :root { --accent: #ff9f43; --bg: #0f0f0f; --panel: #1e1e1e; --text: #eee; --success: #1dd1a1; --warn: #feca57; --error: #ff6b6b; --risk: #ff4757; }
+    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; display: flex; flex-direction: column; height: 100dvh; overflow: hidden; }
+    header { padding: 15px 25px; background: #1a1a1a; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
+    h1 { margin: 0; font-size: 18px; color: var(--accent); letter-spacing: 1px; }
+    .stat-pill { background: #333; padding: 4px 10px; border-radius: 20px; font-size: 10px; color: var(--accent); font-weight: bold; border: 1px solid #444; }
+    #container { flex: 1; overflow-y: auto; padding: 20px; max-width: 1000px; margin: 0 auto; width: 100%; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px; }
+    .section { display: flex; flex-direction: column; gap: 12px; animation: fadeIn 0.3s ease; }
+    .hidden { display: none !important; }
+    textarea, #fix-result { background: #161616; color: #dcdcdc; border: 1px solid #333; border-radius: 8px; padding: 15px; font-family: 'Consolas', monospace; font-size: 13px; min-height: 350px; width: 100%; box-sizing: border-box; outline: none; line-height: 1.5; }
+    .issue-card { background: #252525; padding: 18px; border-radius: 8px; border-left: 4px solid var(--accent); margin-bottom: 15px; }
+    .btn-primary { background: var(--accent); color: #000; font-weight: bold; padding: 12px; border: none; border-radius: 6px; cursor: pointer; transition: opacity 0.2s; }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-secondary { background: #333; color: white; padding: 12px; border: none; border-radius: 6px; cursor: pointer; }
+    #debug-wrapper { border-top: 1px solid #333; padding: 15px; background: #000; }
+    #debug-log { color: #0f0; font-family: monospace; font-size: 11px; max-height: 100px; overflow-y: auto; white-space: pre-wrap; }
+    .loader { width: 16px; height: 16px; border: 2px solid #333; border-top: 2px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; margin-right: 8px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
+</head>
+<body>
+
+<header id="app-header">
+    <h1>AppAudit <span style="font-size:10px; opacity:0.7;">2.5-FLASH EDITION</span></h1>
+    <div style="display:flex; gap:10px; align-items:center;">
+        <div id="request-count" class="stat-pill">QUERIES: 0</div>
+        <button id="settings-btn" style="background:none; border:none; cursor:pointer;">⚙️</button>
+    </div>
+</header>
+
+<div id="container">
+    <div id="sec-input" class="section">
+        <label style="color: #888; font-weight: bold;">[01] SOURCE_CODE_INPUT</label>
+        <textarea id="code-in" placeholder="// Paste code here for 2.5 Flash audit..."></textarea>
+        <div style="display: flex; gap: 10px;">
+            <button id="btn-analyze" class="btn-primary" style="flex: 2;">🔍 START AUDIT</button>
+            <button id="btn-erase" class="btn-secondary" style="flex: 1;">🗑️ ERASE</button>
+        </div>
+    </div>
+
+    <div id="status-deck" style="display:none; text-align:center; padding:40px; background:#1a1a1a; border-radius:8px; border:1px dashed #444;"></div>
+
+    <div id="sec-list" class="section hidden">
+        <div id="issue-list"></div>
+        <button id="btn-fix-action" class="btn-primary" style="width:100%;">✨ APPLY PRECISION PATCHES</button>
+        <button id="btn-back" class="btn-secondary" style="margin-top: 10px;">← BACK</button>
+    </div>
+
+    <div id="sec-result" class="section hidden">
+        <div id="fix-result" style="white-space: pre; background:#161616; padding:15px; border-radius:8px; border:1px solid var(--accent); color:#a29bfe; font-family:monospace; overflow-x:auto;"></div>
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <button id="btn-copy" class="btn-primary" style="flex: 1;">📋 COPY CODE</button>
+            <button id="btn-new" class="btn-secondary" style="flex: 1;">NEW AUDIT</button>
+        </div>
+    </div>
+
+    <div id="debug-wrapper">
+        <div id="debug-log">> ENGINE: GEMINI-2.5-FLASH STATUS: READY</div>
+    </div>
+</div>
+
+<div id="settings-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:100; align-items:center; justify-content:center;">
+    <div style="background:#222; padding:30px; border-radius:12px; border:1px solid var(--accent); width: 320px; display: flex; flex-direction: column; gap: 15px;">
+        <h3 style="margin:0; color:white;">Authorization</h3>
+        <p style="font-size:11px; color:#888; margin:0;">2.5 Flash requires a valid Google AI Key.</p>
+        <input type="password" id="api-key-input" placeholder="Enter Gemini API Key" style="padding:12px; background:#111; color:white; border:1px solid #444;">
+        <button id="btn-save-key" class="btn-primary">SAVE & RECONNECT</button>
+        <button id="btn-close-settings" class="btn-secondary">Close</button>
+    </div>
+</div>
+
+<script>
+// Paste the JavaScript provided in the previous step here.
+</script>
+</body>
+</html>
