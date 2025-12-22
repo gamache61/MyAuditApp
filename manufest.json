@@ -1,0 +1,24 @@
+{
+  "short_name": "AppAudit 4.9.2",
+  "name": "AppAudit: Guardian Security v4.9.2",
+  "description": "Stable Security Auditing with Gemini 2.5 Flash.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f0f0f",
+  "theme_color": "#ff9f43",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/1055/1055683.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/1055/1055683.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}
