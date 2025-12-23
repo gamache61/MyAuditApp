@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Audit App",
+  "version": "1.0",
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "192": "icon-192.png",
+      "512": "icon-512.png"
+    }
+  },
+  "icons": {
+    "192": "icon-192.png",
+    "512": "icon-512.png"
+  },
+  "permissions": ["activeTab", "scripting"]
+}
