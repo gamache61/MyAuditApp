@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro AI Auditor</title>
+    <style>
+        body { background: #0f172a; color: white; font-family: sans-serif; padding: 20px; text-align: center; }
+        textarea { width: 100%; height: 180px; background: #1e293b; color: #38bdf8; border: 1px solid #334155; padding: 15px; border-radius: 8px; font-family: monospace; box-sizing: border-box; }
+        button { background: #38bdf8; color: #0f172a; padding: 15px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; width: 100%; }
+        #result { background: #1e293b; padding: 20px; margin-top: 20px; text-align: left; border-left: 5px solid #38bdf8; white-space: pre-wrap; display: none; border-radius: 0 8px 8px 0; }
+        .copy-btn { background: #4ade80; color: #064e3b; display: none; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <h1>AI Code Auditor</h1>
+    <p>Paste your code to find bugs and fixes:</p>
+    
+    <textarea id="codeBox" placeholder="Paste code here..."></textarea>
+    <button onclick="runAudit()">Run Audit</button>
+
+    <div id="result"></div>
+    <button id="copyBtn" class="copy-btn" onclick="copyCode()">📋 Copy Fixed Code</button>
+
+    <script>
+        async function runAudit() {
+            const resultDiv = document.getElementById('result');
+            const copyBtn = document.getElementById('copyBtn');
+            const code = document.getElementById('codeBox').value;
+            
+            const API_KEY = "AIzaSyCdgiqjfWWcHUdJHQfDs6uOsmywlPPY_oA"; 
+            const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+
+            resultDiv.style.display = "block";
+            resultDiv.innerText = "Analyzing... please wait...";
+            copyBtn.style.display = "none";
+
+            try {
+                const response = await fetch(URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: "Audit this code. Provide the explanation and then the fixed code clearly inside [brackets]: " + code }] }]
+                    })
+                });
+
+                const data = await response.json();
+                const output = data.candidates[0].content.parts[0].text;
+                
+                resultDiv.innerText = output;
+                
+                // Show the copy button if the audit worked
+                copyBtn.style.display = "block";
+            } catch (error) {
+                resultDiv.innerText = "Error: Check your connection.";
+            }
+        }
+
+        // Logic to copy the text to your phone's clipboard
+        function copyCode() {
+            const text = document.getElementById('result').innerText;
+            navigator.clipboard.writeText(text);
+            alert("Audit copied to clipboard!");
+        }
+    </script>
+</body>
+</html>
