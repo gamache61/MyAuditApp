@@ -1,0 +1,33 @@
+ {
+  "name": "MyAuditApp: AI Code Auditor",
+  "short_name": "AuditApp",
+  "description": "Professional HTML structural and accessibility auditor powered by Gemini 2.5 Flash.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f0f0f",
+  "theme_color": "#ff9f43",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "Screenshot.png",
+      "sizes": "1170x2532",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Home Screen"
+    },
+    {
+      "src": "screenshot1.png",
+      "sizes": "1170x2532",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Audit Interface"
+    }
+  ]
+}
